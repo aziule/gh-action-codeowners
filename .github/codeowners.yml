@@ -1,0 +1,5 @@
+github.com/aziule/test-1:
+  - * @foo @bar
+
+github.com/aziule/test-2:
+  - * @baz

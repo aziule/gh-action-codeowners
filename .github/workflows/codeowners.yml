@@ -1,0 +1,26 @@
+name: Codeowners
+on:
+  push:
+    branches:
+      - main
+jobs:
+  provide_repos_matrix:
+    name: Provide repos matrix
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Set matrix
+        id: set-matrix
+        run: echo "::set-output name=matrix::[\"foo\", \"bar\"]"
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+  update_codeowners:
+    name: Update codeowners
+    needs: provide_repos_matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repos: ${{ fromJson(needs.provide_repos_matrix.outputs.matrix) }}
+    steps:
+      - name: Update codeowners
+        run: echo ${{ matrix.repos }}
