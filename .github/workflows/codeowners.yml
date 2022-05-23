@@ -22,7 +22,7 @@ jobs:
           echo "$NEW_CODEOWNERS"
 
       - name: Modify CODEOWNERS
-        if: ${{ steps.fetch-code-owners.EXISTING_CODEOWNERS != steps.fetch-code-owners.NEW_CODEOWNERS }}
+        if: "${{ steps.fetch-code-owners.EXISTING_CODEOWNERS }}" != "${{ steps.fetch-code-owners.NEW_CODEOWNERS }}"
         run: echo "*       ${{ steps.fetch-code-owners.outputs.NEW_CODEOWNERS }}" > .github/CODEOWNERS
 
       - name: Create PR
