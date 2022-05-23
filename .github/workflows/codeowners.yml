@@ -18,11 +18,9 @@ jobs:
           echo "::set-output name=EXISTING_CODEOWNERS::$EXISTING_CODEOWNERS"
           NEW_CODEOWNERS=$(curl --request GET --url https://api.github.com/orgs/945s/teams/test-1/members --header 'authorization: Bearer ${{ secrets.REPO_TOKEN }}' --fail | jq -r '.[].login' | sort | awk '{ printf "@%s ", $1 }')
           echo "::set-output name=NEW_CODEOWNERS::$NEW_CODEOWNERS"
-          echo "${{ steps.fetch-code-owners.EXISTING_CODEOWNERS }}"
-          echo "${{ steps.fetch-code-owners.NEW_CODEOWNERS }}"
 
       - name: Modify CODEOWNERS
-        if: ${{ steps.fetch-code-owners.EXISTING_CODEOWNERS != steps.fetch-code-owners.NEW_CODEOWNERS }}
+#        if: ${{ steps.fetch-code-owners.EXISTING_CODEOWNERS != steps.fetch-code-owners.NEW_CODEOWNERS }}
         run: echo "*       ${{ steps.fetch-code-owners.outputs.NEW_CODEOWNERS }}" > .github/CODEOWNERS
 
       - name: Create PR
