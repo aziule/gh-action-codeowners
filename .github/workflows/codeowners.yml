@@ -20,11 +20,9 @@ jobs:
           echo "::set-output name=NEW_CODEOWNERS::$NEW_CODEOWNERS"
 
       - name: Modify CODEOWNERS
-#        if: ${{ steps.fetch-code-owners.EXISTING_CODEOWNERS != steps.fetch-code-owners.NEW_CODEOWNERS }}
         run: echo "*       ${{ steps.fetch-code-owners.outputs.NEW_CODEOWNERS }}" > .github/CODEOWNERS
 
       - name: Create PR
-        if: ${{ steps.fetch-code-owners.EXISTING_CODEOWNERS != steps.fetch-code-owners.NEW_CODEOWNERS }}
         uses: peter-evans/create-pull-request@v4
         with:
           commit-message: Update CODEOWNERS
