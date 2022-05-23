@@ -9,10 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch team members
+        id: fetch-team-members
         run: |
-          curl --request GET --url https://api.github.com/orgs/945s/teams/test-1/members --header 'authorization: Bearer ${{ secrets.REPO_TOKEN }}' --fail | jq -r '.[].login' | awk '{ printf "@%s ", $1 }'
+          echo "::set-output name=TEAM_MEMBERS::$(curl --request GET --url https://api.github.com/orgs/945s/teams/test-1/members --header 'authorization: Bearer ${{ secrets.REPO_TOKEN }}' --fail | jq -r '.[].login' | awk '{ printf \"@%s \", $1 }')"
 
       - name: Check out source code
         uses: actions/checkout@v3
 
-
+      - name: Modify CODEOWNERS
+        run: echo ${{ steps.fetch-team-members.outputs.TEAM_MEMBERS }}
