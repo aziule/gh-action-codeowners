@@ -11,7 +11,7 @@ jobs:
       - name: Fetch team members
         id: fetch-team-members
         run: |
-          NEW_CODEOWNERS=curl --request GET --url https://api.github.com/orgs/945s/teams/test-1/members --header 'authorization: Bearer ${{ secrets.REPO_TOKEN }}' --fail | jq -r '.[].login' | awk '{ printf "@%s ", $1 }')
+          NEW_CODEOWNERS=$(curl --request GET --url https://api.github.com/orgs/945s/teams/test-1/members --header 'authorization: Bearer ${{ secrets.REPO_TOKEN }}' --fail | jq -r '.[].login' | awk '{ printf "@%s ", $1 }')
           echo "::set-output name=NEW_CODEOWNERS::$NEW_CODEOWNERS"
 
       - name: Check out source code
