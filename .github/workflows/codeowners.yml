@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Modify CODEOWNERS
-        run: echo ${{ steps.fetch-team-members.outputs.NEW_CODEOWNERS }} > .github/CODEOWNERS
+        run: echo "*       ${{ steps.fetch-team-members.outputs.NEW_CODEOWNERS }}" > .github/CODEOWNERS
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v4
