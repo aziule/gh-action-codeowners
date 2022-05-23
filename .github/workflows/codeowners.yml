@@ -4,23 +4,21 @@ on:
     branches:
       - main
 jobs:
-  provide_repos_matrix:
-    name: Provide repos matrix
+  codeowners:
+    name: codeowners
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Set matrix
-        id: set-matrix
-        run: echo "::set-output name=matrix::[\"foo\", \"bar\"]"
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-  update_codeowners:
-    name: Update codeowners
-    needs: provide_repos_matrix
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        repos: ${{ fromJson(needs.provide_repos_matrix.outputs.matrix) }}
-    steps:
-      - name: Update codeowners
-        run: echo ${{ matrix.repos }}
+      - name: Fetch team members
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/issues \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "title": "Automated issue for commit: ${{ github.sha }}",
+            "body": "This issue was automatically created by the GitHub Action workflow **${{ github.workflow }}**. \n\n The commit hash was: _${{ github.sha }}_."
+            }' \
+          --fail
+
+      - name: Check out source code
+        uses: actions/checkout@v3
