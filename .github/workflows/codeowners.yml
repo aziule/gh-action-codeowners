@@ -11,8 +11,8 @@ jobs:
       - name: Fetch team members
         run: |
           curl --request GET \
-          --url https://api.github.com/orgs/taxibeat/teams \
-          --header 'authorization: Bearer ${{ secrets.REPO_TOKEN }}' \
+          --url https://api.github.com/orgs/945s/teams \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --fail
 
       - name: Check out source code
