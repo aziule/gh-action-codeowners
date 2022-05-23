@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Fetch team members
         run: |
-          curl --request GET --url https://api.github.com/orgs/945s/teams/test-1/members --header 'authorization: Bearer ${{ secrets.REPO_TOKEN }}' --fail | jq '.[].login'
+          curl --request GET --url https://api.github.com/orgs/945s/teams/test-1/members --header 'authorization: Bearer ${{ secrets.REPO_TOKEN }}' --fail | jq -r '.[].login' | awk '{ printf "@%s ", $1 }'
 
       - name: Check out source code
         uses: actions/checkout@v3
